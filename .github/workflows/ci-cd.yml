@@ -31,7 +31,7 @@ jobs:
 
       - name: Instalar dependencias
         working-directory: app
-        run: npm ci
+        run: npm install
 
       - name: Ejecutar pruebas unitarias con cobertura
         working-directory: app
