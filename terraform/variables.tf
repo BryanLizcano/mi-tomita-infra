@@ -13,7 +13,7 @@ variable "environment" {
 variable "project_name" {
   description = "Prefijo de nombre para todos los recursos"
   type        = string
-  default     = "tomita"
+  default     = "mi-tomita"
 }
 
 # ── Red ─────────────────────────────────────
@@ -59,7 +59,7 @@ variable "instance_type" {
 variable "key_name" {
   description = "Nombre del Key Pair en AWS (crear en consola)"
   type        = string
-  default     = "tomita-key"
+  default     = "mi-tomita-key"
 }
 
 variable "asg_min_size" {
