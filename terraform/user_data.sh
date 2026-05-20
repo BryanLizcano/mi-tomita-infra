@@ -56,8 +56,7 @@ AWS_REGION=$REGION
 ENVEOF
 
 # ── 6. Crear app.js principal ─────────────────────────────────────────────────
-# CRITICO: $${HOSTNAME} escapa el $$ para que Terraform NO lo interpole como
-# variable propia — el shell recibira ${HOSTNAME} y lo expandirá correctamente.
+# CRITICO: usar $${VAR} para que Terraform no interpole variables de bash.
 cat > app.js << 'APPEOF'
 const express = require('express');
 const mysql   = require('mysql2/promise');
