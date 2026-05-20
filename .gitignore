@@ -1,0 +1,11 @@
+node_modules/
+.env
+coverage/
+*.tfvars
+!terraform.tfvars.example
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+tfplan
+k6-summary.json
