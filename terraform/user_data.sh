@@ -154,7 +154,7 @@ app.post('/api/productos', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor en puerto ${PORT} | host: ${os.hostname()}`);
+  console.log(`Servidor en puerto $${PORT} | host: $${os.hostname()}`);
 });
 
 module.exports = app;
