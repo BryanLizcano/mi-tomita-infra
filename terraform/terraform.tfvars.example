@@ -1,0 +1,26 @@
+# ─────────────────────────────────────────────────────────────
+# COPIAR como terraform.tfvars y completar los valores
+# NUNCA subir terraform.tfvars al repositorio (está en .gitignore)
+# ─────────────────────────────────────────────────────────────
+
+aws_region   = "us-east-1"
+environment  = "production"
+project_name = "tomita"
+
+# EC2
+instance_type = "t3.micro"
+key_name      = "tomita-key"   # Nombre del Key Pair creado en AWS Academy
+
+# AMI Amazon Linux 2023 en us-east-1 (verificar vigencia en consola)
+ami_id = "ami-0f9fc25dd2506cf6d"
+
+# Auto Scaling
+asg_min_size = 2
+asg_max_size = 4
+asg_desired  = 2
+
+# RDS
+db_instance_class = "db.t3.micro"
+db_name           = "tomitadb"
+db_username       = "admin"
+db_password       = "TomitaPass2024!"   # Cambiar por contraseña segura

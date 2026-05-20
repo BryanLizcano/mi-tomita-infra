@@ -1,0 +1,1401 @@
+{
+  "version": 4,
+  "terraform_version": "1.14.8",
+  "serial": 33,
+  "lineage": "f81a084e-2868-004b-bdae-69b4f4aa4551",
+  "outputs": {
+    "alb_arn": {
+      "value": "arn:aws:elasticloadbalancing:us-east-1:047625676456:loadbalancer/app/tomita-alb/01df0ed1a0a97cc5",
+      "type": "string"
+    },
+    "alb_dns_name": {
+      "value": "tomita-alb-1141831403.us-east-1.elb.amazonaws.com",
+      "type": "string"
+    },
+    "asg_name": {
+      "value": "tomita-asg",
+      "type": "string"
+    },
+    "health_check_url": {
+      "value": "http://tomita-alb-1141831403.us-east-1.elb.amazonaws.com/health",
+      "type": "string"
+    },
+    "private_subnet_ids": {
+      "value": [
+        "subnet-06d309ea31a768271",
+        "subnet-01e4eee0d1e290258"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string"
+        ]
+      ]
+    },
+    "public_subnet_ids": {
+      "value": [
+        "subnet-0318777c653808c78",
+        "subnet-0e7da5a5aae65a83e"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string"
+        ]
+      ]
+    },
+    "rds_primary_endpoint": {
+      "value": "tomita-db-primary.c1y5mjluhiwy.us-east-1.rds.amazonaws.com",
+      "type": "string",
+      "sensitive": true
+    },
+    "rds_replica_endpoint": {
+      "value": "tomita-db-replica.c1y5mjluhiwy.us-east-1.rds.amazonaws.com",
+      "type": "string",
+      "sensitive": true
+    },
+    "service_url": {
+      "value": "http://tomita-alb-1141831403.us-east-1.elb.amazonaws.com",
+      "type": "string"
+    },
+    "vpc_id": {
+      "value": "vpc-07506662e11c12e9a",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_cloudwatch_metric_alarm",
+      "name": "alb_5xx",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "actions_enabled": true,
+            "alarm_actions": [],
+            "alarm_description": "Errores 5xx en el ALB supera 10 por minuto",
+            "alarm_name": "tomita-alb-5xx",
+            "arn": "arn:aws:cloudwatch:us-east-1:047625676456:alarm:tomita-alb-5xx",
+            "comparison_operator": "GreaterThanThreshold",
+            "datapoints_to_alarm": 0,
+            "dimensions": {
+              "LoadBalancer": "app/tomita-alb/01df0ed1a0a97cc5"
+            },
+            "evaluate_low_sample_count_percentiles": "",
+            "evaluation_periods": 2,
+            "extended_statistic": "",
+            "id": "tomita-alb-5xx",
+            "insufficient_data_actions": [],
+            "metric_name": "HTTPCode_ELB_5XX_Count",
+            "metric_query": [],
+            "namespace": "AWS/ApplicationELB",
+            "ok_actions": [],
+            "period": 60,
+            "statistic": "Sum",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Project": "tomita-api"
+            },
+            "threshold": 10,
+            "threshold_metric_id": "",
+            "treat_missing_data": "missing",
+            "unit": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "aws_lb.main",
+            "aws_security_group.alb",
+            "aws_subnet.public_1",
+            "aws_subnet.public_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "primary",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "address": "tomita-db-primary.c1y5mjluhiwy.us-east-1.rds.amazonaws.com",
+            "allocated_storage": 20,
+            "allow_major_version_upgrade": null,
+            "apply_immediately": false,
+            "arn": "arn:aws:rds:us-east-1:047625676456:db:tomita-db-primary",
+            "auto_minor_version_upgrade": true,
+            "availability_zone": "us-east-1b",
+            "backup_retention_period": 1,
+            "backup_target": "region",
+            "backup_window": "05:42-06:12",
+            "blue_green_update": [],
+            "ca_cert_identifier": "rds-ca-rsa2048-g1",
+            "character_set_name": "",
+            "copy_tags_to_snapshot": false,
+            "custom_iam_instance_profile": "",
+            "customer_owned_ip_enabled": false,
+            "database_insights_mode": "standard",
+            "db_name": "tomitadb",
+            "db_subnet_group_name": "tomita-db-subnet-group",
+            "dedicated_log_volume": false,
+            "delete_automated_backups": true,
+            "deletion_protection": false,
+            "domain": "",
+            "domain_auth_secret_arn": "",
+            "domain_dns_ips": [],
+            "domain_fqdn": "",
+            "domain_iam_role_name": "",
+            "domain_ou": "",
+            "enabled_cloudwatch_logs_exports": [],
+            "endpoint": "tomita-db-primary.c1y5mjluhiwy.us-east-1.rds.amazonaws.com:3306",
+            "engine": "mysql",
+            "engine_lifecycle_support": "open-source-rds-extended-support",
+            "engine_version": "8.0",
+            "engine_version_actual": "8.0.45",
+            "final_snapshot_identifier": null,
+            "hosted_zone_id": "Z2R2ITUGPM61AM",
+            "iam_database_authentication_enabled": false,
+            "id": "db-XDGCHCWCVYRTJ4J74FI6CB6FK4",
+            "identifier": "tomita-db-primary",
+            "identifier_prefix": "",
+            "instance_class": "db.t3.micro",
+            "iops": 0,
+            "kms_key_id": "",
+            "latest_restorable_time": "2026-05-19T03:21:51Z",
+            "license_model": "general-public-license",
+            "listener_endpoint": [],
+            "maintenance_window": "wed:09:13-wed:09:43",
+            "manage_master_user_password": null,
+            "master_user_secret": [],
+            "master_user_secret_kms_key_id": null,
+            "max_allocated_storage": 0,
+            "monitoring_interval": 0,
+            "monitoring_role_arn": "",
+            "multi_az": false,
+            "nchar_character_set_name": "",
+            "network_type": "IPV4",
+            "option_group_name": "default:mysql-8-0",
+            "parameter_group_name": "default.mysql8.0",
+            "password": "TomitaPass2024!",
+            "password_wo": null,
+            "password_wo_version": null,
+            "performance_insights_enabled": false,
+            "performance_insights_kms_key_id": "",
+            "performance_insights_retention_period": 0,
+            "port": 3306,
+            "publicly_accessible": false,
+            "replica_mode": "",
+            "replicas": [
+              "tomita-db-replica"
+            ],
+            "replicate_source_db": "",
+            "resource_id": "db-XDGCHCWCVYRTJ4J74FI6CB6FK4",
+            "restore_to_point_in_time": [],
+            "s3_import": [],
+            "skip_final_snapshot": true,
+            "snapshot_identifier": null,
+            "status": "available",
+            "storage_encrypted": false,
+            "storage_throughput": 0,
+            "storage_type": "gp2",
+            "tags": {
+              "Name": "tomita-db-primary"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-db-primary",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "timezone": "",
+            "upgrade_storage_config": null,
+            "username": "admin",
+            "vpc_security_group_ids": [
+              "sg-017ce7400a2eba3cc"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "password_wo"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "username"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInVwZGF0ZSI6NDgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "aws_db_subnet_group.main",
+            "aws_security_group.alb",
+            "aws_security_group.ec2",
+            "aws_security_group.rds",
+            "aws_subnet.private_1",
+            "aws_subnet.private_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "replica",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "address": "tomita-db-replica.c1y5mjluhiwy.us-east-1.rds.amazonaws.com",
+            "allocated_storage": 20,
+            "allow_major_version_upgrade": null,
+            "apply_immediately": false,
+            "arn": "arn:aws:rds:us-east-1:047625676456:db:tomita-db-replica",
+            "auto_minor_version_upgrade": true,
+            "availability_zone": "us-east-1a",
+            "backup_retention_period": 0,
+            "backup_target": "region",
+            "backup_window": "05:42-06:12",
+            "blue_green_update": [],
+            "ca_cert_identifier": "rds-ca-rsa2048-g1",
+            "character_set_name": "",
+            "copy_tags_to_snapshot": false,
+            "custom_iam_instance_profile": "",
+            "customer_owned_ip_enabled": false,
+            "database_insights_mode": "standard",
+            "db_name": "tomitadb",
+            "db_subnet_group_name": "tomita-db-subnet-group",
+            "dedicated_log_volume": false,
+            "delete_automated_backups": true,
+            "deletion_protection": false,
+            "domain": "",
+            "domain_auth_secret_arn": "",
+            "domain_dns_ips": [],
+            "domain_fqdn": "",
+            "domain_iam_role_name": "",
+            "domain_ou": "",
+            "enabled_cloudwatch_logs_exports": [],
+            "endpoint": "tomita-db-replica.c1y5mjluhiwy.us-east-1.rds.amazonaws.com:3306",
+            "engine": "mysql",
+            "engine_lifecycle_support": "open-source-rds-extended-support",
+            "engine_version": "8.0.45",
+            "engine_version_actual": "8.0.45",
+            "final_snapshot_identifier": null,
+            "hosted_zone_id": "Z2R2ITUGPM61AM",
+            "iam_database_authentication_enabled": false,
+            "id": "db-IHQV4HAZ226ANTOT5SNOBBXZZY",
+            "identifier": "tomita-db-replica",
+            "identifier_prefix": "",
+            "instance_class": "db.t3.micro",
+            "iops": 0,
+            "kms_key_id": "",
+            "latest_restorable_time": "",
+            "license_model": "general-public-license",
+            "listener_endpoint": [],
+            "maintenance_window": "wed:09:13-wed:09:43",
+            "manage_master_user_password": null,
+            "master_user_secret": [],
+            "master_user_secret_kms_key_id": null,
+            "max_allocated_storage": 0,
+            "monitoring_interval": 0,
+            "monitoring_role_arn": "",
+            "multi_az": false,
+            "nchar_character_set_name": "",
+            "network_type": "IPV4",
+            "option_group_name": "default:mysql-8-0",
+            "parameter_group_name": "default.mysql8.0",
+            "password": null,
+            "password_wo": null,
+            "password_wo_version": null,
+            "performance_insights_enabled": false,
+            "performance_insights_kms_key_id": "",
+            "performance_insights_retention_period": 0,
+            "port": 3306,
+            "publicly_accessible": false,
+            "replica_mode": "",
+            "replicas": [],
+            "replicate_source_db": "tomita-db-primary",
+            "resource_id": "db-IHQV4HAZ226ANTOT5SNOBBXZZY",
+            "restore_to_point_in_time": [],
+            "s3_import": [],
+            "skip_final_snapshot": true,
+            "snapshot_identifier": null,
+            "status": "available",
+            "storage_encrypted": false,
+            "storage_throughput": 0,
+            "storage_type": "gp2",
+            "tags": {
+              "Name": "tomita-db-replica"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-db-replica",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "timezone": "",
+            "upgrade_storage_config": null,
+            "username": "admin",
+            "vpc_security_group_ids": [
+              "sg-017ce7400a2eba3cc"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "password_wo"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInVwZGF0ZSI6NDgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "aws_db_instance.primary",
+            "aws_db_subnet_group.main",
+            "aws_security_group.alb",
+            "aws_security_group.ec2",
+            "aws_security_group.rds",
+            "aws_subnet.private_1",
+            "aws_subnet.private_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_subnet_group",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:rds:us-east-1:047625676456:subgrp:tomita-db-subnet-group",
+            "description": "Managed by Terraform",
+            "id": "tomita-db-subnet-group",
+            "name": "tomita-db-subnet-group",
+            "name_prefix": "",
+            "subnet_ids": [
+              "subnet-01e4eee0d1e290258",
+              "subnet-06d309ea31a768271"
+            ],
+            "supported_network_types": [
+              "IPV4"
+            ],
+            "tags": {
+              "Name": "tomita-db-subnet-group"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-db-subnet-group",
+              "Project": "tomita-api"
+            },
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_subnet.private_1",
+            "aws_subnet.private_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_internet_gateway",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:internet-gateway/igw-0b4f8822cf014042d",
+            "id": "igw-0b4f8822cf014042d",
+            "owner_id": "047625676456",
+            "tags": {
+              "Name": "tomita-igw"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-igw",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_launch_template",
+      "name": "app",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:launch-template/lt-08638c2a8abf95414",
+            "block_device_mappings": [],
+            "capacity_reservation_specification": [],
+            "cpu_options": [],
+            "credit_specification": [],
+            "default_version": 1,
+            "description": "",
+            "disable_api_stop": false,
+            "disable_api_termination": false,
+            "ebs_optimized": "",
+            "elastic_gpu_specifications": [],
+            "elastic_inference_accelerator": [],
+            "enclave_options": [],
+            "hibernation_options": [],
+            "iam_instance_profile": [
+              {
+                "arn": "",
+                "name": "LabInstanceProfile"
+              }
+            ],
+            "id": "lt-08638c2a8abf95414",
+            "image_id": "ami-0f9fc25dd2506cf6d",
+            "instance_initiated_shutdown_behavior": "",
+            "instance_market_options": [],
+            "instance_requirements": [],
+            "instance_type": "t3.micro",
+            "kernel_id": "",
+            "key_name": "tomita-key",
+            "latest_version": 1,
+            "license_specification": [],
+            "maintenance_options": [],
+            "metadata_options": [],
+            "monitoring": [],
+            "name": "tomita-lt-20260519032542892300000001",
+            "name_prefix": "tomita-lt-",
+            "network_interfaces": [],
+            "placement": [],
+            "private_dns_name_options": [],
+            "ram_disk_id": "",
+            "security_group_names": null,
+            "tag_specifications": [
+              {
+                "resource_type": "instance",
+                "tags": {
+                  "Name": "tomita-ec2"
+                }
+              }
+            ],
+            "tags": null,
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Project": "tomita-api"
+            },
+            "update_default_version": null,
+            "user_data": "IyEvYmluL2Jhc2gNCnNldCAtZQ0KDQpEQl9IT1NUPSJ0b21pdGEtZGItcHJpbWFyeS5jMXk1bWpsdWhpd3kudXMtZWFzdC0xLnJkcy5hbWF6b25hd3MuY29tIg0KREJfVVNFUj0iYWRtaW4iDQpEQl9QQVNTV09SRD0iVG9taXRhUGFzczIwMjQhIg0KREJfTkFNRT0idG9taXRhZGIiDQpSRUdJT049InVzLWVhc3QtMSINCg0KIyAxLiBTaXN0ZW1hIHkgTm9kZS5qcw0KeXVtIHVwZGF0ZSAteQ0KY3VybCAtZnNTTCBodHRwczovL3JwbS5ub2Rlc291cmNlLmNvbS9zZXR1cF8xOC54IHwgYmFzaCAtDQp5dW0gaW5zdGFsbCAteSBub2RlanMgZ2l0DQoNCm5wbSBpbnN0YWxsIC1nIHBtMg0KDQojIDIuIENsb25hciBhcHANCm1rZGlyIC1wIC9vcHQvdG9taXRhLWFwaQ0KY2QgL29wdC90b21pdGEtYXBpDQpnaXQgY2xvbmUgaHR0cHM6Ly9naXRodWIuY29tL0xlb3VwYi90b21pdGEtaW5mcmEuZ2l0IC4gMj4vZGV2L251bGwgfHwgZ2l0IHB1bGwgb3JpZ2luIG1haW4gMj4vZGV2L251bGwgfHwgdHJ1ZQ0KDQpjZCAvb3B0L3RvbWl0YS1hcGkvYXBwDQpucG0gaW5zdGFsbCAtLXByb2R1Y3Rpb24NCg0KIyAzLiBWYXJpYWJsZXMgZGUgZW50b3Jubw0KSU5TVEFOQ0VfSUQ9JChjdXJsIC1zIGh0dHA6Ly8xNjkuMjU0LjE2OS4yNTQvbGF0ZXN0L21ldGEtZGF0YS9pbnN0YW5jZS1pZCAyPi9kZXYvbnVsbCB8fCBlY2hvICJ1bmtub3duIikNCg0KY2F0ID4gL29wdC90b21pdGEtYXBpL2FwcC8uZW52IDw8RU9GDQpOT0RFX0VOVj1wcm9kdWN0aW9uDQpQT1JUPTMwMDANCkRCX0hPU1Q9JERCX0hPU1QNCkRCX1VTRVI9JERCX1VTRVINCkRCX1BBU1NXT1JEPSREQl9QQVNTV09SRA0KREJfTkFNRT0kREJfTkFNRQ0KQVdTX1JFR0lPTj0kUkVHSU9ODQpJTlNUQU5DRV9JRD0kSU5TVEFOQ0VfSUQNCkVPRg0KDQojIDQuIEluaXQgREINCnNsZWVwIDMwDQpub2RlIC0gPDwnSU5JVERCJw0KY29uc3QgbXlzcWwgPSByZXF1aXJlKCdteXNxbDIvcHJvbWlzZScpOw0KcmVxdWlyZSgnZG90ZW52JykuY29uZmlnKHsgcGF0aDogJy9vcHQvdG9taXRhLWFwaS9hcHAvLmVudicgfSk7DQphc3luYyBmdW5jdGlvbiBpbml0KCkgew0KICB0cnkgew0KICAgIGNvbnN0IGNvbm4gPSBhd2FpdCBteXNxbC5jcmVhdGVDb25uZWN0aW9uKHsNCiAgICAgIGhvc3Q6IHByb2Nlc3MuZW52LkRCX0hPU1QsDQogICAgICB1c2VyOiBwcm9jZXNzLmVudi5EQl9VU0VSLA0KICAgICAgcGFzc3dvcmQ6IHByb2Nlc3MuZW52LkRCX1BBU1NXT1JELA0KICAgIH0pOw0KICAgIGF3YWl0IGNvbm4ucXVlcnkoIkNSRUFURSBEQVRBQkFTRSBJRiBOT1QgRVhJU1RTICIgKyBwcm9jZXNzLmVudi5EQl9OQU1FKTsNCiAgICBhd2FpdCBjb25uLnF1ZXJ5KCJVU0UgIiArIHByb2Nlc3MuZW52LkRCX05BTUUpOw0KICAgIGF3YWl0IGNvbm4ucXVlcnkoYENSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIHByb2R1Y3RvcyAoDQogICAgICBpZCBJTlQgQVVUT19JTkNSRU1FTlQgUFJJTUFSWSBLRVksDQogICAgICBub21icmUgVkFSQ0hBUigxMDApIE5PVCBOVUxMLA0KICAgICAgcHJlY2lvIERFQ0lNQUwoMTAsMikgTk9UIE5VTEwsDQogICAgICBjcmVhdGVkX2F0IFRJTUVTVEFNUCBERUZBVUxUIENVUlJFTlRfVElNRVNUQU1QDQogICAgKWApOw0KICAgIGF3YWl0IGNvbm4ucXVlcnkoYElOU0VSVCBJR05PUkUgSU5UTyBwcm9kdWN0b3MgKGlkLG5vbWJyZSxwcmVjaW8pIFZBTFVFUw0KICAgICAgKDEsJ1BpbnR1cmEgQmxhbmNvIEh1ZXNvJywyNTAwKSwNCiAgICAgICgyLCdQaW50dXJhIEF6dWwgQ2VsZXN0ZScsMzIwMCksDQogICAgICAoMywnUGludHVyYSBWZXJkZScsMzEyMClgKTsNCiAgICBjb25zb2xlLmxvZygnREIgaW5pY2lhbGl6YWRhJyk7DQogICAgYXdhaXQgY29ubi5lbmQoKTsNCiAgfSBjYXRjaChlcnIpIHsgY29uc29sZS5lcnJvcignREIgaW5pdCBlcnJvcjonLCBlcnIubWVzc2FnZSk7IH0NCn0NCmluaXQoKTsNCklOSVREQg0KDQojIDUuIEluaWNpYXIgY29uIFBNMg0KY2QgL29wdC90b21pdGEtYXBpL2FwcA0KcG0yIHN0YXJ0IHNyYy9hcHAuanMgLS1uYW1lICJ0b21pdGEtYXBpIiAtLWVudiBwcm9kdWN0aW9uDQpwbTIgc3RhcnR1cCBzeXN0ZW1kIC11IGVjMi11c2VyIC0taHAgL2hvbWUvZWMyLXVzZXINCnBtMiBzYXZlDQoNCiMgNi4gQ2xvdWRXYXRjaCBBZ2VudA0KeXVtIGluc3RhbGwgLXkgYW1hem9uLWNsb3Vkd2F0Y2gtYWdlbnQNCg0KY2F0ID4gL29wdC9hd3MvYW1hem9uLWNsb3Vkd2F0Y2gtYWdlbnQvZXRjL2FtYXpvbi1jbG91ZHdhdGNoLWFnZW50Lmpzb24gPDwnQ1dDT05GJw0Kew0KICAiYWdlbnQiOiB7ICJtZXRyaWNzX2NvbGxlY3Rpb25faW50ZXJ2YWwiOiA2MCB9LA0KICAibWV0cmljcyI6IHsNCiAgICAibWV0cmljc19jb2xsZWN0ZWQiOiB7DQogICAgICAiY3B1IjogIHsgIm1lYXN1cmVtZW50IjogWyJjcHVfdXNhZ2VfYWN0aXZlIl0sICJtZXRyaWNzX2NvbGxlY3Rpb25faW50ZXJ2YWwiOiA2MCB9LA0KICAgICAgIm1lbSI6ICB7ICJtZWFzdXJlbWVudCI6IFsibWVtX3VzZWRfcGVyY2VudCJdLCAgIm1ldHJpY3NfY29sbGVjdGlvbl9pbnRlcnZhbCI6IDYwIH0sDQogICAgICAiZGlzayI6IHsgIm1lYXN1cmVtZW50IjogWyJkaXNrX3VzZWRfcGVyY2VudCJdLCAicmVzb3VyY2VzIjogWyIvIl0sICJtZXRyaWNzX2NvbGxlY3Rpb25faW50ZXJ2YWwiOiA2MCB9DQogICAgfQ0KICB9DQp9DQpDV0NPTkYNCg0KL29wdC9hd3MvYW1hem9uLWNsb3Vkd2F0Y2gtYWdlbnQvYmluL2FtYXpvbi1jbG91ZHdhdGNoLWFnZW50LWN0bCBcDQogIC1hIGZldGNoLWNvbmZpZyAtbSBlYzIgXA0KICAtYyBmaWxlOi9vcHQvYXdzL2FtYXpvbi1jbG91ZHdhdGNoLWFnZW50L2V0Yy9hbWF6b24tY2xvdWR3YXRjaC1hZ2VudC5qc29uIC1zDQoNCmVjaG8gIkJvb3RzdHJhcCBjb21wbGV0YWRvIg==",
+            "vpc_security_group_ids": [
+              "sg-018453f9b6dde194d"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "user_data"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_db_instance.primary",
+            "aws_db_subnet_group.main",
+            "aws_security_group.alb",
+            "aws_security_group.ec2",
+            "aws_security_group.rds",
+            "aws_subnet.private_1",
+            "aws_subnet.private_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_logs": [
+              {
+                "bucket": "",
+                "enabled": false,
+                "prefix": ""
+              }
+            ],
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:047625676456:loadbalancer/app/tomita-alb/01df0ed1a0a97cc5",
+            "arn_suffix": "app/tomita-alb/01df0ed1a0a97cc5",
+            "client_keep_alive": 3600,
+            "connection_logs": [
+              {
+                "bucket": "",
+                "enabled": false,
+                "prefix": ""
+              }
+            ],
+            "customer_owned_ipv4_pool": "",
+            "desync_mitigation_mode": "defensive",
+            "dns_name": "tomita-alb-1141831403.us-east-1.elb.amazonaws.com",
+            "dns_record_client_routing_policy": null,
+            "drop_invalid_header_fields": false,
+            "enable_cross_zone_load_balancing": true,
+            "enable_deletion_protection": false,
+            "enable_http2": true,
+            "enable_tls_version_and_cipher_suite_headers": false,
+            "enable_waf_fail_open": false,
+            "enable_xff_client_port": false,
+            "enable_zonal_shift": false,
+            "enforce_security_group_inbound_rules_on_private_link_traffic": "",
+            "id": "arn:aws:elasticloadbalancing:us-east-1:047625676456:loadbalancer/app/tomita-alb/01df0ed1a0a97cc5",
+            "idle_timeout": 60,
+            "internal": false,
+            "ip_address_type": "ipv4",
+            "ipam_pools": [],
+            "load_balancer_type": "application",
+            "minimum_load_balancer_capacity": [],
+            "name": "tomita-alb",
+            "name_prefix": "",
+            "preserve_host_header": false,
+            "security_groups": [
+              "sg-011cbea57432b32af"
+            ],
+            "subnet_mapping": [
+              {
+                "allocation_id": "",
+                "ipv6_address": "",
+                "outpost_id": "",
+                "private_ipv4_address": "",
+                "subnet_id": "subnet-0318777c653808c78"
+              },
+              {
+                "allocation_id": "",
+                "ipv6_address": "",
+                "outpost_id": "",
+                "private_ipv4_address": "",
+                "subnet_id": "subnet-0e7da5a5aae65a83e"
+              }
+            ],
+            "subnets": [
+              "subnet-0318777c653808c78",
+              "subnet-0e7da5a5aae65a83e"
+            ],
+            "tags": {
+              "Name": "tomita-alb"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-alb",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a",
+            "xff_header_processing_mode": "append",
+            "zone_id": "Z35SXDOTRQ7X7K"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "aws_security_group.alb",
+            "aws_subnet.public_1",
+            "aws_subnet.public_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_listener",
+      "name": "http",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "alpn_policy": null,
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:047625676456:listener/app/tomita-alb/01df0ed1a0a97cc5/18c06497f0932987",
+            "certificate_arn": null,
+            "default_action": [
+              {
+                "authenticate_cognito": [],
+                "authenticate_oidc": [],
+                "fixed_response": [],
+                "forward": [],
+                "order": 1,
+                "redirect": [],
+                "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:047625676456:targetgroup/tomita-tg/650c83673086b60d",
+                "type": "forward"
+              }
+            ],
+            "id": "arn:aws:elasticloadbalancing:us-east-1:047625676456:listener/app/tomita-alb/01df0ed1a0a97cc5/18c06497f0932987",
+            "load_balancer_arn": "arn:aws:elasticloadbalancing:us-east-1:047625676456:loadbalancer/app/tomita-alb/01df0ed1a0a97cc5",
+            "mutual_authentication": [],
+            "port": 80,
+            "protocol": "HTTP",
+            "routing_http_request_x_amzn_mtls_clientcert_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_issuer_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_leaf_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_serial_number_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_subject_header_name": null,
+            "routing_http_request_x_amzn_mtls_clientcert_validity_header_name": null,
+            "routing_http_request_x_amzn_tls_cipher_suite_header_name": null,
+            "routing_http_request_x_amzn_tls_version_header_name": null,
+            "routing_http_response_access_control_allow_credentials_header_value": "",
+            "routing_http_response_access_control_allow_headers_header_value": "",
+            "routing_http_response_access_control_allow_methods_header_value": "",
+            "routing_http_response_access_control_allow_origin_header_value": "",
+            "routing_http_response_access_control_expose_headers_header_value": "",
+            "routing_http_response_access_control_max_age_header_value": "",
+            "routing_http_response_content_security_policy_header_value": "",
+            "routing_http_response_server_enabled": true,
+            "routing_http_response_strict_transport_security_header_value": "",
+            "routing_http_response_x_content_type_options_header_value": "",
+            "routing_http_response_x_frame_options_header_value": "",
+            "ssl_policy": "",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Project": "tomita-api"
+            },
+            "tcp_idle_timeout_seconds": null,
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsInVwZGF0ZSI6MzAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "aws_lb.main",
+            "aws_lb_target_group.app",
+            "aws_security_group.alb",
+            "aws_subnet.public_1",
+            "aws_subnet.public_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_lb_target_group",
+      "name": "app",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:elasticloadbalancing:us-east-1:047625676456:targetgroup/tomita-tg/650c83673086b60d",
+            "arn_suffix": "targetgroup/tomita-tg/650c83673086b60d",
+            "connection_termination": null,
+            "deregistration_delay": "300",
+            "health_check": [
+              {
+                "enabled": true,
+                "healthy_threshold": 2,
+                "interval": 30,
+                "matcher": "200",
+                "path": "/health",
+                "port": "traffic-port",
+                "protocol": "HTTP",
+                "timeout": 5,
+                "unhealthy_threshold": 3
+              }
+            ],
+            "id": "arn:aws:elasticloadbalancing:us-east-1:047625676456:targetgroup/tomita-tg/650c83673086b60d",
+            "ip_address_type": "ipv4",
+            "lambda_multi_value_headers_enabled": false,
+            "load_balancer_arns": [
+              "arn:aws:elasticloadbalancing:us-east-1:047625676456:loadbalancer/app/tomita-alb/01df0ed1a0a97cc5"
+            ],
+            "load_balancing_algorithm_type": "round_robin",
+            "load_balancing_anomaly_mitigation": "off",
+            "load_balancing_cross_zone_enabled": "use_load_balancer_configuration",
+            "name": "tomita-tg",
+            "name_prefix": "",
+            "port": 3000,
+            "preserve_client_ip": null,
+            "protocol": "HTTP",
+            "protocol_version": "HTTP1",
+            "proxy_protocol_v2": false,
+            "slow_start": 0,
+            "stickiness": [
+              {
+                "cookie_duration": 86400,
+                "cookie_name": "",
+                "enabled": false,
+                "type": "lb_cookie"
+              }
+            ],
+            "tags": {
+              "Name": "tomita-tg"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-tg",
+              "Project": "tomita-api"
+            },
+            "target_failover": [
+              {
+                "on_deregistration": null,
+                "on_unhealthy": null
+              }
+            ],
+            "target_group_health": [
+              {
+                "dns_failover": [
+                  {
+                    "minimum_healthy_targets_count": "1",
+                    "minimum_healthy_targets_percentage": "off"
+                  }
+                ],
+                "unhealthy_state_routing": [
+                  {
+                    "minimum_healthy_targets_count": 1,
+                    "minimum_healthy_targets_percentage": "off"
+                  }
+                ]
+              }
+            ],
+            "target_health_state": [
+              {
+                "enable_unhealthy_connection_termination": null,
+                "unhealthy_draining_interval": null
+              }
+            ],
+            "target_type": "instance",
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:route-table/rtb-095900a3509a65013",
+            "id": "rtb-095900a3509a65013",
+            "owner_id": "047625676456",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-0b4f8822cf014042d",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Name": "tomita-rt-public"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-rt-public",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "aws_internet_gateway.main",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "public_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-05e02cf8a904a1211",
+            "route_table_id": "rtb-095900a3509a65013",
+            "subnet_id": "subnet-0318777c653808c78",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "aws_internet_gateway.main",
+            "aws_route_table.public",
+            "aws_subnet.public_1",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "public_2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-04cc7db8df4932074",
+            "route_table_id": "rtb-095900a3509a65013",
+            "subnet_id": "subnet-0e7da5a5aae65a83e",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "aws_internet_gateway.main",
+            "aws_route_table.public",
+            "aws_subnet.public_2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "alb",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:security-group/sg-011cbea57432b32af",
+            "description": "Permite HTTP desde Internet hacia el ALB",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-011cbea57432b32af",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTP publico",
+                "from_port": 80,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 80
+              }
+            ],
+            "name": "tomita-sg-alb",
+            "name_prefix": "",
+            "owner_id": "047625676456",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "tomita-sg-alb"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-sg-alb",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "ec2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:security-group/sg-018453f9b6dde194d",
+            "description": "Permite trafico del ALB al puerto 3000 de las instancias",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-018453f9b6dde194d",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "SSH administracion (restringir IP en produccion)",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              },
+              {
+                "cidr_blocks": [],
+                "description": "App port desde ALB",
+                "from_port": 3000,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-011cbea57432b32af"
+                ],
+                "self": false,
+                "to_port": 3000
+              }
+            ],
+            "name": "tomita-sg-ec2",
+            "name_prefix": "",
+            "owner_id": "047625676456",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "tomita-sg-ec2"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-sg-ec2",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "aws_security_group.alb",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "rds",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:security-group/sg-017ce7400a2eba3cc",
+            "description": "Permite MySQL 3306 solo desde EC2 privado",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-017ce7400a2eba3cc",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "MySQL desde EC2 unicamente",
+                "from_port": 3306,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-018453f9b6dde194d"
+                ],
+                "self": false,
+                "to_port": 3306
+              }
+            ],
+            "name": "tomita-sg-rds",
+            "name_prefix": "",
+            "owner_id": "047625676456",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "tomita-sg-rds"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-sg-rds",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "aws_security_group.alb",
+            "aws_security_group.ec2",
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "private_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:subnet/subnet-06d309ea31a768271",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-1a",
+            "availability_zone_id": "use1-az4",
+            "cidr_block": "10.0.3.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-06d309ea31a768271",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "047625676456",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Name": "tomita-private-1a"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-private-1a",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "private_2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:subnet/subnet-01e4eee0d1e290258",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-1b",
+            "availability_zone_id": "use1-az6",
+            "cidr_block": "10.0.4.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-01e4eee0d1e290258",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "047625676456",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Name": "tomita-private-1b"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-private-1b",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "public_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:subnet/subnet-0318777c653808c78",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-1a",
+            "availability_zone_id": "use1-az4",
+            "cidr_block": "10.0.1.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0318777c653808c78",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "047625676456",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Name": "tomita-public-1a"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-public-1a",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "public_2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:subnet/subnet-0e7da5a5aae65a83e",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "us-east-1b",
+            "availability_zone_id": "use1-az6",
+            "cidr_block": "10.0.2.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0e7da5a5aae65a83e",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "047625676456",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Name": "tomita-public-1b"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-public-1b",
+              "Project": "tomita-api"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-07506662e11c12e9a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:047625676456:vpc/vpc-07506662e11c12e9a",
+            "assign_generated_ipv6_cidr_block": false,
+            "cidr_block": "10.0.0.0/16",
+            "default_network_acl_id": "acl-0957a433fa7e2fb8e",
+            "default_route_table_id": "rtb-07d6327f4f0689774",
+            "default_security_group_id": "sg-07e473baae6f512d1",
+            "dhcp_options_id": "dopt-0a4862bf6f0296db2",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "enable_network_address_usage_metrics": false,
+            "id": "vpc-07506662e11c12e9a",
+            "instance_tenancy": "default",
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_network_border_group": "",
+            "ipv6_ipam_pool_id": "",
+            "ipv6_netmask_length": 0,
+            "main_route_table_id": "rtb-07d6327f4f0689774",
+            "owner_id": "047625676456",
+            "tags": {
+              "Name": "tomita-vpc"
+            },
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "Terraform",
+              "Name": "tomita-vpc",
+              "Project": "tomita-api"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
